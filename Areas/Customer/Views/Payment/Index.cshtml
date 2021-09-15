@@ -1,0 +1,31 @@
+﻿@using OnlineShop.Models;
+@model IEnumerable<Order>
+@inject IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
+@using OnlineShop.Utility
+@{
+    ViewData["Title"] = "Index";
+}
+@{ List<Products> products = HttpContextAccessor.HttpContext.Session.Get<List<Products>>("products");
+
+    if (products == null)
+    {
+        products = new List<Products>();
+    } }
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="col-6 text-right">
+    <form action="https://www.payfast.co.za/eng/process" method="post">
+        @foreach (var items in products)
+        {
+            <input type="hidden" name="merchant_id" value="18277239">
+            <input type="hidden" name="merchant_key" value="swsiaweab6cf7">
+            <input type="hidden" name="amount" value=@products.Sum(c => c.Price)>
+            <input type="hidden" name="item_name" value="Test Product">
+            <input  class="btn btn-info">
+        }
+
+    </form>
+</div>
